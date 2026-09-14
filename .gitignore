@@ -1,0 +1,17 @@
+# Godot 4+ generated data
+/.godot/
+
+# Imported translations
+*.translation
+
+# Temporary files
+*.tmp
+*.mos
+
+# macOS
+.DS_Store
+
+# Editor backups
+*.bak
+*.orig
+*~
