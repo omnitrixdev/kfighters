@@ -1,31 +1,33 @@
 extends CharacterBody2D
 
-## A placeholder fighter: a colored square that walks left/right and jumps.
-## Real sprite rendering (AnimatedSprite2D + SpriteFrames) replaces _draw() later.
-
 @export var character_data: CharacterData
 @export var is_player := true
 
 const GRAVITY := 980.0
-const SIZE := 56.0
 const BODY_HALF_W := 24.0
 
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+
 var facing := 1.0
-var base_color := Color(0.55, 0.55, 0.62)
 var _was_up := false
+var _is_attacking := false
 
 
 func setup(data: CharacterData) -> void:
 	character_data = data
 	if character_data:
-		base_color = character_data.accent_color
-	queue_redraw()
+		sprite.modulate = character_data.accent_color
 
 
 func _ready() -> void:
 	if character_data:
-		base_color = character_data.accent_color
-	queue_redraw()
+		sprite.modulate = character_data.accent_color
+	sprite.animation_finished.connect(_on_animation_finished)
+
+
+func _on_animation_finished() -> void:
+	if sprite.animation == &"punch":
+		_is_attacking = false
 
 
 func _physics_process(delta: float) -> void:
@@ -43,6 +45,10 @@ func _physics_process(delta: float) -> void:
 		elif not up:
 			_was_up = false
 
+		if Input.is_action_just_pressed("light") and not _is_attacking and is_on_floor():
+			_is_attacking = true
+			sprite.play(&"punch")
+
 	velocity.x = dir * walk_speed
 
 	if not is_on_floor():
@@ -54,19 +60,9 @@ func _physics_process(delta: float) -> void:
 
 	if dir != 0.0:
 		facing = sign(dir)
-	queue_redraw()
+		sprite.flip_h = facing < 0.0
 
-
-func _draw() -> void:
-	var half := SIZE * 0.5
-	draw_rect(Rect2(-half, -half, SIZE, SIZE), base_color)
-	draw_rect(Rect2(-half, -half, SIZE, SIZE), base_color.darkened(0.45), false, 3.0)
-
-	# Face: two eyes that show which way the fighter is looking.
-	var ex := 10.0 * facing
-	var ey := -8.0
-	var r := 4.0
-	draw_circle(Vector2(ex - 4.0 * facing, ey), r, Color(1, 1, 1))
-	draw_circle(Vector2(ex + 4.0 * facing, ey), r, Color(1, 1, 1))
-	draw_circle(Vector2(ex - 4.0 * facing, ey), r * 0.5, Color(0.1, 0.1, 0.1))
-	draw_circle(Vector2(ex + 4.0 * facing, ey), r * 0.5, Color(0.1, 0.1, 0.1))
+	if not _is_attacking:
+		var target := &"walk" if dir != 0.0 else &"idle"
+		if sprite.animation != target:
+			sprite.play(target)

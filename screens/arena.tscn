@@ -10,6 +10,7 @@ size = Vector2(1400, 40)
 script = ExtResource("1_ar")
 
 [node name="Background" type="CanvasLayer" parent="."]
+layer = -1
 
 [node name="Bg" type="ColorRect" parent="Background"]
 anchors_preset = 15

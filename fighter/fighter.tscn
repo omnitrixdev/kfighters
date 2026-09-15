@@ -1,12 +1,86 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=15 format=3]
 
 [ext_resource type="Script" path="res://fighter/fighter.gd" id="1_fg"]
+[ext_resource type="Texture2D" path="res://assets/fighter/idle/idle_0.png" id="tex_idle_0"]
+[ext_resource type="Texture2D" path="res://assets/fighter/idle/idle_1.png" id="tex_idle_1"]
+[ext_resource type="Texture2D" path="res://assets/fighter/idle/idle_2.png" id="tex_idle_2"]
+[ext_resource type="Texture2D" path="res://assets/fighter/walk/walk_0.png" id="tex_walk_0"]
+[ext_resource type="Texture2D" path="res://assets/fighter/walk/walk_1.png" id="tex_walk_1"]
+[ext_resource type="Texture2D" path="res://assets/fighter/walk/walk_2.png" id="tex_walk_2"]
+[ext_resource type="Texture2D" path="res://assets/fighter/walk/walk_3.png" id="tex_walk_3"]
+[ext_resource type="Texture2D" path="res://assets/fighter/walk/walk_4.png" id="tex_walk_4"]
+[ext_resource type="Texture2D" path="res://assets/fighter/punch/punch_0.png" id="tex_punch_0"]
+[ext_resource type="Texture2D" path="res://assets/fighter/punch/punch_1.png" id="tex_punch_1"]
+[ext_resource type="Texture2D" path="res://assets/fighter/punch/punch_2.png" id="tex_punch_2"]
+[ext_resource type="Texture2D" path="res://assets/fighter/punch/punch_3.png" id="tex_punch_3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(48, 56)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fighter"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("tex_idle_0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_idle_1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_idle_2")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("tex_walk_0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_walk_1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_walk_2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_walk_3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_walk_4")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("tex_punch_0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_punch_1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_punch_2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_punch_3")
+}],
+"loop": false,
+"name": &"punch",
+"speed": 14.0
+}]
 
 [node name="Fighter" type="CharacterBody2D"]
 script = ExtResource("1_fg")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_body")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_fighter")
+animation = &"idle"
+autoplay = "idle"
+scale = Vector2(0.17, 0.17)
+offset = Vector2(0, -10)
