@@ -12,12 +12,12 @@ extends Resource
 @export var jump_force: float = 520.0
 @export var weight: float = 1.0
 
-@export var light: MoveData
-@export var medium: MoveData
-@export var heavy: MoveData
-@export var special: MoveData
+@export var basic_1: MoveData
+@export var basic_2: MoveData
 @export var ultimate: MoveData
-@export var comeback: MoveData
+
+func can_use_ultimate(energy_full: bool) -> bool:
+	return ultimate != null and energy_full
 
 @export var select_sound: AudioStream
 @export var voice_lines: Array[AudioStream] = []

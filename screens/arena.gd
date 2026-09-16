@@ -16,7 +16,7 @@ func _ready() -> void:
 
 	_char_label.text = "%s" % picked.display_name
 	_mode_label.text = "STORY" if GameManager.mode == GameManager.Mode.STORY else "FIGHTING MODE"
-	_hint_label.text = "A / D or ← → move · W or ↑ jump · ESC = main menu"
+	_hint_label.text = "A / D move · W jump · J basic 1 · K basic 2 · U ULT = full energy · ESC menu"
 
 
 func _unhandled_input(event: InputEvent) -> void:

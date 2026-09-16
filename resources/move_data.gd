@@ -1,6 +1,9 @@
 class_name MoveData
 extends Resource
 
+enum Kind { BASIC, ULTIMATE }
+
+@export var kind: Kind = Kind.BASIC
 @export var name: String
 @export var animation: String
 @export var damage: int = 8

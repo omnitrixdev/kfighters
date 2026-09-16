@@ -1,6 +1,19 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://screens/character_select.gd" id="1_cs"]
+[ext_resource type="Texture2D" path="res://assets/background.jpeg" id="2_bg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.05, 0.05, 0.09, 0.55)
+border_color = Color(1, 1, 1, 0.08)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
 
 [node name="CharacterSelect" type="Control"]
 layout_mode = 3
@@ -11,56 +24,115 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_cs")
 
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_bg")
+expand_mode = 1
+stretch_mode = 6
+
 [node name="Title" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -240.0
-offset_top = 50.0
+offset_top = 14.0
 offset_right = 240.0
-offset_bottom = 100.0
+offset_bottom = 46.0
 grow_horizontal = 2
 text = "SELECT YOUR FIGHTER"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 24
+
+[node name="Preview" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 56.0
+offset_right = 460.0
+offset_bottom = 556.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="Margin" type="MarginContainer" parent="Preview"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Layout" type="VBoxContainer" parent="Preview/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PortraitBg" type="ColorRect" parent="Preview/Margin/Layout"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 300)
+size_flags_vertical = 3
+color = Color(0.55, 0.55, 0.62, 1)
+
+[node name="Portrait" type="TextureRect" parent="Preview/Margin/Layout/PortraitBg"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Initial" type="Label" parent="Preview/Margin/Layout/PortraitBg"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 96
+theme_override_colors/font_color = Color(0, 0, 0, 0.35)
+
+[node name="Name" type="Label" parent="Preview/Margin/Layout"]
+layout_mode = 2
+text = "Pick a fighter to enter the arena"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 22
+
+[node name="Skills" type="Label" parent="Preview/Margin/Layout"]
+layout_mode = 2
+size_flags_vertical = 3
+text = ""
+theme_override_font_sizes/font_size = 13
+theme_override_constants/line_spacing = 6
 
 [node name="Grid" type="GridContainer" parent="."]
 layout_mode = 0
-offset_left = 226.0
-offset_top = 130.0
-offset_right = 926.0
-offset_bottom = 530.0
-theme_override_constants/h_separation = 12
-theme_override_constants/v_separation = 12
-columns = 5
-
-[node name="SelectedLabel" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -300.0
-offset_top = 545.0
-offset_right = 300.0
-offset_bottom = 570.0
-grow_horizontal = 2
-text = "Pick a fighter to enter the arena"
-horizontal_alignment = 1
+offset_left = 38.0
+offset_top = 566.0
+offset_right = 1114.0
+offset_bottom = 638.0
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
+columns = 15
 
 [node name="BackButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 60.0
-offset_top = 590.0
-offset_right = 180.0
-offset_bottom = 630.0
-text = "Back"
+offset_left = 20.0
+offset_top = 16.0
+offset_right = 110.0
+offset_bottom = 46.0
+text = "◀ Back"
 
 [node name="FightButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 900.0
-offset_top = 590.0
-offset_right = 1090.0
-offset_bottom = 630.0
+offset_left = 1032.0
+offset_top = 16.0
+offset_right = 1132.0
+offset_bottom = 46.0
 disabled = true
 text = "FIGHT!"

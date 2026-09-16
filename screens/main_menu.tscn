@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://hlwqlaebd75f"]
 
-[ext_resource type="Script" path="res://screens/main_menu.gd" id="1_mm"]
+[ext_resource type="Script" uid="uid://cbumoh3ecqcy1" path="res://screens/main_menu.gd" id="1_mm"]
 
-[node name="MainMenu" type="Control"]
+[node name="MainMenu" type="Control" unique_id=495738324]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,7 +11,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_mm")
 
-[node name="Title" type="Label" parent="."]
+[node name="Title" type="Label" parent="." unique_id=262796987]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -21,11 +21,11 @@ offset_top = 90.0
 offset_right = 140.0
 offset_bottom = 140.0
 grow_horizontal = 2
+theme_override_font_sizes/font_size = 42
 text = "KFIGHTERS"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 42
 
-[node name="StoryButton" type="Button" parent="."]
+[node name="StoryButton" type="Button" parent="." unique_id=21923763]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -37,7 +37,7 @@ offset_bottom = 300.0
 grow_horizontal = 2
 text = "Story Mode"
 
-[node name="FightButton" type="Button" parent="."]
+[node name="FightButton" type="Button" parent="." unique_id=1035032548]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -49,7 +49,7 @@ offset_bottom = 365.0
 grow_horizontal = 2
 text = "Fighting Mode"
 
-[node name="QuestButton" type="Button" parent="."]
+[node name="QuestButton" type="Button" parent="." unique_id=431281341]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -62,7 +62,7 @@ grow_horizontal = 2
 disabled = true
 text = "Quest (Daily Check-in)"
 
-[node name="ComingSoon" type="Label" parent="."]
+[node name="ComingSoon" type="Label" parent="." unique_id=1566183992]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -70,6 +70,6 @@ anchor_right = 0.5
 offset_top = 440.0
 offset_bottom = 460.0
 grow_horizontal = 2
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
 text = "Coming soon"
 horizontal_alignment = 1
-theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
