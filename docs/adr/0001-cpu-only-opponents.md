@@ -1,0 +1,3 @@
+# CPU-only opponents; no local 2-player
+
+Kfighters is a fighting game, so local 2-player (P1 vs P2, split keyboard) is the obvious expectation. We deliberately scoped it out: every Match, in both Fighting Mode and Story Mode, is the player against a CPU Opponent. Fighting Mode's CPU is picked at random from the Roster; Story Mode's CPU is the next fighter in a fixed ladder sequence. This was chosen to avoid building split-input handling and a two-fighter select flow before the combat loop (hitboxes, damage, rounds) exists at all. Adding local 2-player later means reworking the character-select flow and input mapping, not just the arena — treat that as a real, planned migration, not a small tweak.

@@ -1,11 +1,17 @@
 class_name CharacterData
 extends Resource
 
+## Always-on stat modifier drawn from a small shared pool (see CONTEXT.md).
+## SWIFT and VITALITY are baked into walk_speed/max_health at roster build time;
+## METER_RUSH and IRON_SKIN are applied at combat resolution time in fighter.gd.
+enum Passive { METER_RUSH, SWIFT, IRON_SKIN, VITALITY }
+
 @export var id: String
 @export var display_name: String
 @export var portrait: Texture2D
 @export var sprite_frames: SpriteFrames
 @export var accent_color: Color = Color.WHITE # placeholder while we have no art
+@export var passive: Passive = Passive.METER_RUSH
 
 @export var max_health: int = 100
 @export var walk_speed: float = 200.0

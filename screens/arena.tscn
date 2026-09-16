@@ -1,10 +1,24 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://screens/arena.gd" id="1_ar"]
 [ext_resource type="PackedScene" path="res://fighter/fighter.tscn" id="2_fg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(1400, 40)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_health_fill"]
+bg_color = Color(0.35, 0.9, 0.35, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_energy_fill"]
+bg_color = Color(0.3, 0.75, 1.0, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [node name="Arena" type="Node2D"]
 script = ExtResource("1_ar")
@@ -29,7 +43,7 @@ shape = SubResource("RectangleShape2D_floor")
 [node name="Player" parent="." instance=ExtResource("2_fg")]
 position = Vector2(260, 500)
 
-[node name="Dummy" parent="." instance=ExtResource("2_fg")]
+[node name="Opponent" parent="." instance=ExtResource("2_fg")]
 position = Vector2(890, 500)
 is_player = false
 
@@ -38,33 +52,121 @@ position = Vector2(576, 324)
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
-[node name="TopBar" type="VBoxContainer" parent="HUD"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.0
-anchor_right = 0.5
-anchor_bottom = 0.0
-offset_left = -300.0
-offset_right = 300.0
-offset_bottom = 90.0
-grow_horizontal = 2
-theme_override_constants/separation = 2
-alignment = 0
+[node name="PlayerPanel" type="VBoxContainer" parent="HUD"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 16.0
+offset_right = 360.0
+offset_bottom = 72.0
+theme_override_constants/separation = 4
 
-[node name="ModeLabel" type="Label" parent="HUD/TopBar"]
+[node name="Name" type="Label" parent="HUD/PlayerPanel"]
+layout_mode = 2
+text = "P1"
+theme_override_font_sizes/font_size = 14
+
+[node name="Health" type="ProgressBar" parent="HUD/PlayerPanel"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 18)
+theme_override_styles/fill = SubResource("StyleBoxFlat_health_fill")
+max_value = 100.0
+value = 100.0
+show_percentage = false
+
+[node name="Energy" type="ProgressBar" parent="HUD/PlayerPanel"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 10)
+theme_override_styles/fill = SubResource("StyleBoxFlat_energy_fill")
+max_value = 100.0
+value = 0.0
+show_percentage = false
+
+[node name="OpponentPanel" type="VBoxContainer" parent="HUD"]
+layout_mode = 0
+offset_left = 792.0
+offset_top = 16.0
+offset_right = 1132.0
+offset_bottom = 72.0
+theme_override_constants/separation = 4
+
+[node name="Name" type="Label" parent="HUD/OpponentPanel"]
+layout_mode = 2
+text = "CPU"
+horizontal_alignment = 2
+theme_override_font_sizes/font_size = 14
+
+[node name="Health" type="ProgressBar" parent="HUD/OpponentPanel"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 18)
+theme_override_styles/fill = SubResource("StyleBoxFlat_health_fill")
+max_value = 100.0
+value = 100.0
+show_percentage = false
+
+[node name="Energy" type="ProgressBar" parent="HUD/OpponentPanel"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 10)
+theme_override_styles/fill = SubResource("StyleBoxFlat_energy_fill")
+max_value = 100.0
+value = 0.0
+show_percentage = false
+
+[node name="CenterTop" type="VBoxContainer" parent="HUD"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -160.0
+offset_top = 14.0
+offset_right = 160.0
+offset_bottom = 60.0
+grow_horizontal = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="ModeLabel" type="Label" parent="HUD/CenterTop"]
 layout_mode = 2
 text = "FIGHTING MODE"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 26
-
-[node name="CharLabel" type="Label" parent="HUD/TopBar"]
-layout_mode = 2
-text = "PIXEL PUNCH"
-horizontal_alignment = 1
 theme_override_font_sizes/font_size = 18
 
-[node name="HintLabel" type="Label" parent="HUD/TopBar"]
+[node name="RoundLabel" type="Label" parent="HUD/CenterTop"]
 layout_mode = 2
-text = "A / D or ← → move · W or ↑ jump · ESC = main menu"
+text = "ROUND 1"
 horizontal_alignment = 1
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.65, 0.65, 0.7, 1)
+
+[node name="MessageLabel" type="Label" parent="HUD"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -40.0
+offset_right = 300.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "FIGHT!"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 48
+
+[node name="HintLabel" type="Label" parent="HUD"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -34.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "A/D move · W jump · J punch · K basic1 · L basic2 · U ultimate · ESC menu"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 12
 theme_override_colors/font_color = Color(0.65, 0.65, 0.7, 1)

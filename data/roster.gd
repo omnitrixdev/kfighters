@@ -23,6 +23,10 @@ const FIGHTER_HP := [100, 95, 105, 110, 90, 100, 95, 100, 105, 110, 90, 115, 95,
 const FIGHTER_SPEED := [215, 235, 225, 200, 245, 230, 220, 225, 205, 200, 240, 190, 230, 210, 215]
 const FIGHTER_JUMP := [560, 590, 575, 540, 610, 600, 580, 585, 545, 540, 605, 520, 595, 565, 570]
 
+## Starter Cast (see CONTEXT.md): the only roster entries with real sprite art
+## this milestone. Indices into FIGHTER_NAMES: Pixel Punch, Noodle Ninja, Boulder Boris.
+const STARTER_INDICES := [0, 5, 11]
+
 
 static func all() -> Array[CharacterData]:
 	var out: Array[CharacterData] = []
@@ -35,10 +39,25 @@ static func all() -> Array[CharacterData]:
 		cd.walk_speed = FIGHTER_SPEED[i]
 		cd.jump_force = FIGHTER_JUMP[i]
 		cd.weight = 1.0
+		cd.passive = (i % 4) as CharacterData.Passive
+		match cd.passive:
+			CharacterData.Passive.SWIFT:
+				cd.walk_speed *= 1.1
+			CharacterData.Passive.VITALITY:
+				cd.max_health += 15
 		if i == 0:
 			cd.portrait = load("res://assets/fighter/idle/idle_0.png")
 		_assign_moves(cd, i)
 		out.append(cd)
+	return out
+
+
+## The 3 Starter Cast fighters (see CONTEXT.md), in FIGHTER_NAMES order.
+static func starter_cast() -> Array[CharacterData]:
+	var roster := all()
+	var out: Array[CharacterData] = []
+	for i in STARTER_INDICES:
+		out.append(roster[i])
 	return out
 
 
