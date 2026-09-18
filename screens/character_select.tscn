@@ -1,11 +1,23 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://screens/character_select.gd" id="1_cs"]
-[ext_resource type="Texture2D" path="res://assets/background.jpeg" id="2_bg"]
+[ext_resource type="Texture2D" path="res://char-images/backgrounds/Gemini_Generated_Image_bclwkrbclwkrbclw.jpeg" id="2_bg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
 bg_color = Color(0.05, 0.05, 0.09, 0.55)
 border_color = Color(1, 1, 1, 0.08)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_opponent_panel"]
+bg_color = Color(0.08, 0.1, 0.16, 0.55)
+border_color = Color(0.3, 0.55, 0.95, 0.35)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
@@ -35,42 +47,57 @@ texture = ExtResource("2_bg")
 expand_mode = 1
 stretch_mode = 6
 
+[node name="Dim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.02, 0.02, 0.04, 0.45)
+
 [node name="Title" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -240.0
-offset_top = 14.0
-offset_right = 240.0
-offset_bottom = 46.0
+offset_left = -260.0
+offset_top = 10.0
+offset_right = 260.0
+offset_bottom = 50.0
 grow_horizontal = 2
 text = "SELECT YOUR FIGHTER"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 30
+theme_override_colors/font_color = Color(1, 0.93, 0.75, 1)
+theme_override_colors/font_outline_color = Color(0.1, 0.05, 0.02, 1)
+theme_override_constants/outline_size = 6
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.6)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 3
 
 [node name="Preview" type="PanelContainer" parent="."]
 layout_mode = 0
 offset_left = 30.0
-offset_top = 56.0
-offset_right = 460.0
-offset_bottom = 556.0
+offset_top = 60.0
+offset_right = 380.0
+offset_bottom = 560.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
 
 [node name="Margin" type="MarginContainer" parent="Preview"]
 layout_mode = 2
-theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 16
-theme_override_constants/margin_right = 16
-theme_override_constants/margin_bottom = 16
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 14
 
 [node name="Layout" type="VBoxContainer" parent="Preview/Margin"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 6
 
 [node name="PortraitBg" type="ColorRect" parent="Preview/Margin/Layout"]
 layout_mode = 2
-custom_minimum_size = Vector2(0, 300)
+custom_minimum_size = Vector2(0, 230)
 size_flags_vertical = 3
 color = Color(0.55, 0.55, 0.62, 1)
 
@@ -94,31 +121,160 @@ grow_vertical = 2
 text = "?"
 horizontal_alignment = 1
 vertical_alignment = 1
-theme_override_font_sizes/font_size = 96
+theme_override_font_sizes/font_size = 80
 theme_override_colors/font_color = Color(0, 0, 0, 0.35)
 
 [node name="Name" type="Label" parent="Preview/Margin/Layout"]
 layout_mode = 2
 text = "Pick a fighter to enter the arena"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 20
+
+[node name="Stats" type="VBoxContainer" parent="Preview/Margin/Layout"]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="PowerRow" type="HBoxContainer" parent="Preview/Margin/Layout/Stats"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Label" type="Label" parent="Preview/Margin/Layout/Stats/PowerRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(74, 0)
+text = "POWER"
+theme_override_font_sizes/font_size = 11
+
+[node name="Bar" type="ProgressBar" parent="Preview/Margin/Layout/Stats/PowerRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 12)
+max_value = 100.0
+value = 0.0
+show_percentage = false
+
+[node name="SpeedRow" type="HBoxContainer" parent="Preview/Margin/Layout/Stats"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Label" type="Label" parent="Preview/Margin/Layout/Stats/SpeedRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(74, 0)
+text = "SPEED"
+theme_override_font_sizes/font_size = 11
+
+[node name="Bar" type="ProgressBar" parent="Preview/Margin/Layout/Stats/SpeedRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 12)
+max_value = 100.0
+value = 0.0
+show_percentage = false
+
+[node name="TechniqueRow" type="HBoxContainer" parent="Preview/Margin/Layout/Stats"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Label" type="Label" parent="Preview/Margin/Layout/Stats/TechniqueRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(74, 0)
+text = "TECHNIQUE"
+theme_override_font_sizes/font_size = 11
+
+[node name="Bar" type="ProgressBar" parent="Preview/Margin/Layout/Stats/TechniqueRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 12)
+max_value = 100.0
+value = 0.0
+show_percentage = false
+
+[node name="DefenseRow" type="HBoxContainer" parent="Preview/Margin/Layout/Stats"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Label" type="Label" parent="Preview/Margin/Layout/Stats/DefenseRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(74, 0)
+text = "DEFENSE"
+theme_override_font_sizes/font_size = 11
+
+[node name="Bar" type="ProgressBar" parent="Preview/Margin/Layout/Stats/DefenseRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 12)
+max_value = 100.0
+value = 0.0
+show_percentage = false
 
 [node name="Skills" type="Label" parent="Preview/Margin/Layout"]
 layout_mode = 2
 size_flags_vertical = 3
 text = ""
-theme_override_font_sizes/font_size = 13
-theme_override_constants/line_spacing = 6
+theme_override_font_sizes/font_size = 12
+theme_override_constants/line_spacing = 5
 
 [node name="Grid" type="GridContainer" parent="."]
 layout_mode = 0
-offset_left = 38.0
-offset_top = 566.0
-offset_right = 1114.0
-offset_bottom = 638.0
-theme_override_constants/h_separation = 4
-theme_override_constants/v_separation = 4
-columns = 15
+offset_left = 440.0
+offset_top = 144.0
+offset_right = 848.0
+offset_bottom = 480.0
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 4
+
+[node name="OpponentPreview" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_left = 918.0
+offset_top = 60.0
+offset_right = 1122.0
+offset_bottom = 560.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_opponent_panel")
+
+[node name="Margin" type="MarginContainer" parent="OpponentPreview"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 14
+
+[node name="Layout" type="VBoxContainer" parent="OpponentPreview/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="QBg" type="ColorRect" parent="OpponentPreview/Margin/Layout"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 230)
+size_flags_vertical = 3
+color = Color(0.16, 0.2, 0.3, 1)
+
+[node name="QMark" type="Label" parent="OpponentPreview/Margin/Layout/QBg"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 80
+theme_override_colors/font_color = Color(0.55, 0.75, 1, 0.55)
+
+[node name="OpponentLabel" type="Label" parent="OpponentPreview/Margin/Layout"]
+layout_mode = 2
+text = "OPPONENT"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.7, 0.82, 1, 1)
+
+[node name="OpponentHint" type="Label" parent="OpponentPreview/Margin/Layout"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Chosen by CPU / Story mode after you lock in your fighter."
+autowrap_mode = 2
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.65, 0.7, 0.8, 1)
 
 [node name="BackButton" type="Button" parent="."]
 layout_mode = 0

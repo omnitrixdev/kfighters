@@ -49,7 +49,75 @@ static func all() -> Array[CharacterData]:
 			cd.portrait = load("res://assets/fighter/idle/idle_0.png")
 		_assign_moves(cd, i)
 		out.append(cd)
+	out.append(mama_goopy())
 	return out
+
+
+## Real Starter Cast entry: Indonesian parody fighter, full art (see
+## docs/user-prompts/mama-goopy.md for the prompt pack this art came from).
+static func mama_goopy() -> CharacterData:
+	var cd := CharacterData.new()
+	cd.id = "mama_goopy"
+	cd.display_name = "Mama Goopy"
+	cd.accent_color = Color(0.75, 0.55, 0.25)
+	cd.max_health = 105
+	cd.walk_speed = 190.0
+	cd.jump_force = 540.0
+	cd.weight = 1.15
+	cd.passive = CharacterData.Passive.IRON_SKIN
+	cd.portrait = load("res://char-images/mama-goopy/goopy-char-avatar.jpeg")
+	cd.sprite_frames = _build_goopy_sprite_frames()
+	cd.sprite_scale = Vector2(0.11, 0.11)
+	cd.sprite_offset = Vector2(0, -8)
+	cd.basic_1 = _move("Cane Sweep", MoveData.Kind.BASIC, 9, 7, 4, 11,
+		Vector2(160, -35), 13, 9, 0)
+	cd.basic_2 = _move("Double Cane Strike", MoveData.Kind.BASIC, 17, 12, 4, 17,
+		Vector2(260, -80), 21, 14, 0)
+	cd.ultimate = _move("Petrus Fury", MoveData.Kind.ULTIMATE, 34, 22, 6, 28,
+		Vector2(440, -170), 44, 0, 100)
+	return cd
+
+
+## Slices the 4x2 walk sheet into an 8-frame animation and builds the rest of
+## the SpriteFrames from single-pose art (see char-images/mama-goopy/).
+static func _build_goopy_sprite_frames() -> SpriteFrames:
+	var sf := SpriteFrames.new()
+	sf.remove_animation(&"default")
+
+	var idle_tex: Texture2D = load("res://char-images/mama-goopy/ready-stances.jpeg")
+	var punch_tex: Texture2D = load("res://char-images/mama-goopy/strike-with-wooden-stick.jpeg")
+	var ultimate_tex: Texture2D = load("res://char-images/mama-goopy/taunt.jpeg")
+	var walk_sheet: Texture2D = load("res://char-images/mama-goopy/8-walking-goopy.jpeg")
+
+	sf.add_animation(&"idle")
+	sf.set_animation_loop(&"idle", true)
+	sf.set_animation_speed(&"idle", 4.0)
+	sf.add_frame(&"idle", idle_tex)
+
+	sf.add_animation(&"walk")
+	sf.set_animation_loop(&"walk", true)
+	sf.set_animation_speed(&"walk", 10.0)
+	var cols := 4
+	var rows := 2
+	var cell := walk_sheet.get_size() / Vector2(cols, rows)
+	for row in rows:
+		for col in cols:
+			var atlas := AtlasTexture.new()
+			atlas.atlas = walk_sheet
+			atlas.region = Rect2(Vector2(col, row) * cell, cell)
+			sf.add_frame(&"walk", atlas)
+
+	sf.add_animation(&"punch")
+	sf.set_animation_loop(&"punch", false)
+	sf.set_animation_speed(&"punch", 12.0)
+	sf.add_frame(&"punch", punch_tex)
+
+	sf.add_animation(&"ultimate")
+	sf.set_animation_loop(&"ultimate", false)
+	sf.set_animation_speed(&"ultimate", 8.0)
+	sf.add_frame(&"ultimate", ultimate_tex)
+
+	return sf
 
 
 ## The 3 Starter Cast fighters (see CONTEXT.md), in FIGHTER_NAMES order.

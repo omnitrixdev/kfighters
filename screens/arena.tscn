@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://screens/arena.gd" id="1_ar"]
 [ext_resource type="PackedScene" path="res://fighter/fighter.tscn" id="2_fg"]
+[ext_resource type="Texture2D" path="res://char-images/backgrounds/Gemini_Generated_Image_bclwkrbclwkrbclw.jpeg" id="3_bg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(1400, 40)
@@ -26,13 +27,15 @@ script = ExtResource("1_ar")
 [node name="Background" type="CanvasLayer" parent="."]
 layer = -1
 
-[node name="Bg" type="ColorRect" parent="Background"]
+[node name="Bg" type="TextureRect" parent="Background"]
+texture = ExtResource("3_bg")
+expand_mode = 1
+stretch_mode = 6
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.07, 0.08, 0.13, 1)
 
 [node name="Floor" type="StaticBody2D" parent="."]
 position = Vector2(576, 560)

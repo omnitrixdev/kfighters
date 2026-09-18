@@ -10,6 +10,8 @@ enum Passive { METER_RUSH, SWIFT, IRON_SKIN, VITALITY }
 @export var display_name: String
 @export var portrait: Texture2D
 @export var sprite_frames: SpriteFrames
+@export var sprite_scale: Vector2 = Vector2(0.17, 0.17)
+@export var sprite_offset: Vector2 = Vector2(0, -10)
 @export var accent_color: Color = Color.WHITE # placeholder while we have no art
 @export var passive: Passive = Passive.METER_RUSH
 

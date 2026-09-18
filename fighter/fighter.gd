@@ -39,7 +39,13 @@ var _punch_move: MoveData
 func setup(data: CharacterData) -> void:
 	character_data = data
 	if character_data:
-		sprite.modulate = character_data.accent_color
+		sprite.scale = character_data.sprite_scale
+		sprite.offset = character_data.sprite_offset
+		if character_data.sprite_frames:
+			sprite.sprite_frames = character_data.sprite_frames
+			sprite.modulate = Color.WHITE
+		else:
+			sprite.modulate = character_data.accent_color
 
 
 func _ready() -> void:

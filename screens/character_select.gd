@@ -1,6 +1,6 @@
 extends Control
 
-const CARD_SIZE := Vector2(68, 68)
+const CARD_SIZE := Vector2(96, 78)
 
 var _roster: Array[CharacterData] = []
 var _cards: Array[Button] = []
@@ -13,6 +13,10 @@ var _selected_index := -1
 @onready var _preview_bg: ColorRect = $Preview/Margin/Layout/PortraitBg
 @onready var _preview_portrait: TextureRect = $Preview/Margin/Layout/PortraitBg/Portrait
 @onready var _preview_initial: Label = $Preview/Margin/Layout/PortraitBg/Initial
+@onready var _power_bar: ProgressBar = $Preview/Margin/Layout/Stats/PowerRow/Bar
+@onready var _speed_bar: ProgressBar = $Preview/Margin/Layout/Stats/SpeedRow/Bar
+@onready var _technique_bar: ProgressBar = $Preview/Margin/Layout/Stats/TechniqueRow/Bar
+@onready var _defense_bar: ProgressBar = $Preview/Margin/Layout/Stats/DefenseRow/Bar
 @onready var _fight_button: Button = $FightButton
 @onready var _back_button: Button = $BackButton
 
@@ -31,9 +35,15 @@ func _ready() -> void:
 func _build_grid() -> void:
 	for i in _roster.size():
 		var data: CharacterData = _roster[i]
+		var cell := VBoxContainer.new()
+		cell.name = "Cell%02d" % (i + 1)
+		cell.custom_minimum_size = CARD_SIZE
+		cell.add_theme_constant_override("separation", 2)
+		cell.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
 		var card := Button.new()
 		card.name = "Card%02d" % (i + 1)
-		card.custom_minimum_size = CARD_SIZE
+		card.custom_minimum_size = Vector2(CARD_SIZE.x, CARD_SIZE.y - 18)
 		card.tooltip_text = data.display_name
 		card.pressed.connect(_on_card.bind(i))
 		card.add_theme_stylebox_override("normal", _card_style(data.accent_color, false))
@@ -51,7 +61,16 @@ func _build_grid() -> void:
 		else:
 			card.text = "%02d" % (i + 1)
 			card.add_theme_font_size_override("font_size", 14)
-		_grid.add_child(card)
+		cell.add_child(card)
+
+		var label := Label.new()
+		label.text = data.display_name.to_upper()
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		label.clip_text = true
+		label.add_theme_font_size_override("font_size", 10)
+		cell.add_child(label)
+
+		_grid.add_child(cell)
 		_cards.append(card)
 
 
@@ -90,6 +109,16 @@ func _refresh() -> void:
 		_preview_portrait.texture = data.portrait
 		_preview_initial.visible = data.portrait == null
 		_preview_initial.text = data.display_name.substr(0, 1).to_upper()
+
+		var fill := StyleBoxFlat.new()
+		fill.bg_color = data.accent_color
+		fill.set_corner_radius_all(3)
+		for bar in [_power_bar, _speed_bar, _technique_bar, _defense_bar]:
+			bar.add_theme_stylebox_override("fill", fill)
+		_power_bar.value = _stat_power(data)
+		_speed_bar.value = _stat_speed(data)
+		_technique_bar.value = _stat_technique(data)
+		_defense_bar.value = _stat_defense(data)
 	else:
 		_selected_label.text = "Pick a fighter to enter the arena"
 		_skills_label.text = ""
@@ -97,6 +126,27 @@ func _refresh() -> void:
 		_preview_portrait.texture = null
 		_preview_initial.visible = true
 		_preview_initial.text = "?"
+		for bar in [_power_bar, _speed_bar, _technique_bar, _defense_bar]:
+			bar.value = 0.0
+
+
+## Stat bars are flavor readouts derived from combat data — there's no
+## dedicated "technique"/"defense" field on CharacterData.
+func _stat_power(data: CharacterData) -> float:
+	return clampf(remap(float(data.basic_2.damage), 8.0, 36.0, 10.0, 100.0), 10.0, 100.0)
+
+
+func _stat_speed(data: CharacterData) -> float:
+	return clampf(remap(data.walk_speed, 90.0, 245.0, 10.0, 100.0), 10.0, 100.0)
+
+
+func _stat_technique(data: CharacterData) -> float:
+	var avg_startup := (data.basic_1.startup_frames + data.basic_2.startup_frames) / 2.0
+	return clampf(remap(avg_startup, 4.0, 13.0, 100.0, 10.0), 10.0, 100.0)
+
+
+func _stat_defense(data: CharacterData) -> float:
+	return clampf(remap(float(data.max_health), 90.0, 120.0, 10.0, 100.0), 10.0, 100.0)
 
 
 func style_card(sb: StyleBoxFlat, selected: bool) -> void:
