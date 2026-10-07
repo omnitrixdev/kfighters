@@ -1,6 +1,6 @@
 extends Control
 
-const CARD_SIZE := Vector2(96, 78)
+const CARD_SIZE := Vector2(86, 78)
 
 var _roster: Array[CharacterData] = []
 var _cards: Array[Button] = []

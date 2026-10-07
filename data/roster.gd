@@ -67,8 +67,8 @@ static func mama_goopy() -> CharacterData:
 	cd.passive = CharacterData.Passive.IRON_SKIN
 	cd.portrait = load("res://char-images/mama-goopy/goopy-char-avatar.jpeg")
 	cd.sprite_frames = _build_goopy_sprite_frames()
-	cd.sprite_scale = Vector2(0.11, 0.11)
-	cd.sprite_offset = Vector2(0, -8)
+	cd.sprite_scale = Vector2(0.105, 0.105)
+	cd.sprite_offset = Vector2(0, -13)
 	cd.basic_1 = _move("Cane Sweep", MoveData.Kind.BASIC, 9, 7, 4, 11,
 		Vector2(160, -35), 13, 9, 0)
 	cd.basic_2 = _move("Double Cane Strike", MoveData.Kind.BASIC, 17, 12, 4, 17,
@@ -78,44 +78,38 @@ static func mama_goopy() -> CharacterData:
 	return cd
 
 
-## Slices the 4x2 walk sheet into an 8-frame animation and builds the rest of
-## the SpriteFrames from single-pose art (see char-images/mama-goopy/).
+## Builds the SpriteFrames from pre-processed art in char-images/mama-goopy/frames/:
+## the raw Gemini renders came as opaque JPEGs with a baked-in fake checker
+## background (no real alpha) and wildly inconsistent canvas sizes between the
+## single-pose shots and the 4x2 walk sheet's cells. frames/*.png were matted
+## (real alpha), cropped to content, and height-normalized offline so every
+## frame reads at the same apparent character size at a shared sprite_scale.
 static func _build_goopy_sprite_frames() -> SpriteFrames:
 	var sf := SpriteFrames.new()
 	sf.remove_animation(&"default")
 
-	var idle_tex: Texture2D = load("res://char-images/mama-goopy/ready-stances.jpeg")
-	var punch_tex: Texture2D = load("res://char-images/mama-goopy/strike-with-wooden-stick.jpeg")
-	var ultimate_tex: Texture2D = load("res://char-images/mama-goopy/taunt.jpeg")
-	var walk_sheet: Texture2D = load("res://char-images/mama-goopy/8-walking-goopy.jpeg")
+	const DIR := "res://char-images/mama-goopy/frames/"
 
 	sf.add_animation(&"idle")
 	sf.set_animation_loop(&"idle", true)
 	sf.set_animation_speed(&"idle", 4.0)
-	sf.add_frame(&"idle", idle_tex)
+	sf.add_frame(&"idle", load(DIR + "idle.png"))
 
 	sf.add_animation(&"walk")
 	sf.set_animation_loop(&"walk", true)
 	sf.set_animation_speed(&"walk", 10.0)
-	var cols := 4
-	var rows := 2
-	var cell := walk_sheet.get_size() / Vector2(cols, rows)
-	for row in rows:
-		for col in cols:
-			var atlas := AtlasTexture.new()
-			atlas.atlas = walk_sheet
-			atlas.region = Rect2(Vector2(col, row) * cell, cell)
-			sf.add_frame(&"walk", atlas)
+	for i in 8:
+		sf.add_frame(&"walk", load(DIR + "walk_%d.png" % i))
 
 	sf.add_animation(&"punch")
 	sf.set_animation_loop(&"punch", false)
 	sf.set_animation_speed(&"punch", 12.0)
-	sf.add_frame(&"punch", punch_tex)
+	sf.add_frame(&"punch", load(DIR + "punch.png"))
 
 	sf.add_animation(&"ultimate")
 	sf.set_animation_loop(&"ultimate", false)
 	sf.set_animation_speed(&"ultimate", 8.0)
-	sf.add_frame(&"ultimate", ultimate_tex)
+	sf.add_frame(&"ultimate", load(DIR + "ultimate.png"))
 
 	return sf
 

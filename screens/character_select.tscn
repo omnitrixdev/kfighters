@@ -80,7 +80,7 @@ theme_override_constants/shadow_offset_y = 3
 layout_mode = 0
 offset_left = 30.0
 offset_top = 60.0
-offset_right = 380.0
+offset_right = 368.0
 offset_bottom = 560.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
 
@@ -109,7 +109,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 expand_mode = 1
-stretch_mode = 5
+stretch_mode = 6
 
 [node name="Initial" type="Label" parent="Preview/Margin/Layout/PortraitBg"]
 layout_mode = 1
@@ -215,17 +215,17 @@ theme_override_constants/line_spacing = 5
 
 [node name="Grid" type="GridContainer" parent="."]
 layout_mode = 0
-offset_left = 440.0
-offset_top = 144.0
-offset_right = 848.0
-offset_bottom = 480.0
+offset_left = 392.0
+offset_top = 142.0
+offset_right = 760.0
+offset_bottom = 478.0
 theme_override_constants/h_separation = 8
 theme_override_constants/v_separation = 8
 columns = 4
 
 [node name="OpponentPreview" type="PanelContainer" parent="."]
 layout_mode = 0
-offset_left = 918.0
+offset_left = 784.0
 offset_top = 60.0
 offset_right = 1122.0
 offset_bottom = 560.0
